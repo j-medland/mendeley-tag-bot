@@ -1,9 +1,9 @@
 ## Mendeley Tag Bot
-After having had some troubling importing my Zotero Library I created this bot which uses the [medendeley API](http://dev.mendeley.com/) to manipulate your libraries programatically.
+After having had some troubling importing my Zotero Library I created this bot which uses the [medendeley API](http://dev.mendeley.com/) to manipulate libraries programatically.
 
-Dealing with O-Auth was a pain and I have yet to work out exactly how to use the npm @mendeley sdk so this uses raw requests (watch your Accept and Content-Type Headers) after some initial auth.
+Dealing with O-Auth was a pain and I have yet to work out exactly how to use the npm @mendeley sdk so this uses raw requests (watch your Accept and Content-Type Headers).
 
-Hit up the [Show Live](https://mendeley-tag-bot.glitch.me/) to make it perform the task in `lib/do-the-robot.js`
+Hit up the apps [Show] button to make it perform the task in `lib/do-the-robot.js`
 
 Make sure you authorize the application using the dev.mendeley portal!
 

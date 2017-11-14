@@ -7,8 +7,44 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <style>
+      a{display:block}
+    </style>
   </head>
   <body>
-   <img style="display:block;margin:auto" src ="https://cdn.glitch.com/e6e89503-359f-4a4e-8ebd-c756ab919a8f%2FLogo.svg?1509622011417"/>
+    <div style="width:100%; text-align:center">
+     <img style="display:block;margin:auto" src ="https://cdn.glitch.com/e6e89503-359f-4a4e-8ebd-c756ab919a8f%2FLogo.svg?1509721845220"/>
+      <div class="buttons">
+      <a class ="button" href="/auth" id="login">Authenticate</a>
+      <a class ="button" href="/logout" id="clear">Clear Authentication</a>
+      <a class ="button" href="https://glitch.com/edit/#!/remix/mendeley-tag-bot">Remix This Project 🎏</a>
+      </div>
+    </div>
+      <script>
+        function pollAuth() {
+          var httpRequest = new XMLHttpRequest()
+
+          httpRequest.open('GET', '/auth-state')
+          httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+              if (httpRequest.status === 200) {
+                var authd = JSON.parse(httpRequest.responseText).authorized
+                
+                function visibility (id,vis){
+                  document.getElementById(id).style.display= vis? 'inherit':'none'
+                }
+                visibility('login', !authd)
+                visibility('clear', authd)
+              }
+            }
+          }
+          httpRequest.send()
+          // poll every 500 ms
+          window.setTimeout(pollAuth,500)
+        }
+        // start polling
+        pollAuth()
+      </script>
   </body>
 </html>
