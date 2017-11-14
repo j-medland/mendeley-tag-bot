@@ -19,16 +19,27 @@ app.use(express.static('public'))
 
 // default route - serve index.html
 app.get('/', function (request, response, next) {
-  
-  // redirect to auth if required
-  if(!oauth.authenticated()){
+  // auth ok - do robot
+  if(oauth.authenticated()){
+    doTheRobot(oauth.getAccessToken)
+  }
+  // try to refresh if possible
+  else if(oauth.getRefreshToken()){
     return response.redirect('/auth')
   }
-  doTheRobot(oauth.getAccessToken, request, response, next)
   return response.sendFile(__dirname + '/views/index.html')
+})
+
+app.get('/logout', function (request, response, next){
+  oauth.clearToken()
+  response.redirect('/')
+})
+
+app.get('/auth-state', function (request, response, next){
+  response.status(200).json({authorized: oauth.authenticated()})
 })
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
-  console.log(`Robot listening on ${listener.address().port}`)
+  console.log(`Server Up @${new Date()} on port${listener.address().port}`)
 })
