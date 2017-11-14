@@ -19,10 +19,13 @@ app.use(express.static('public'))
 
 // default route - serve index.html
 app.get('/', function (request, response, next) {
-  
-  // redirect to auth if required
+  // auth ok - do robot
   if(oauth.authenticated()){
     doTheRobot(oauth.getAccessToken)
+  }
+  // try to refresh if possible
+  else if(oauth.getRefreshToken()){
+    return response.redirect('/auth')
   }
   return response.sendFile(__dirname + '/views/index.html')
 })
